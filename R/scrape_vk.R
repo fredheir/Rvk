@@ -110,7 +110,7 @@ store_schools <- function(items, output) {
 
 
 extract_wall <- function(user_id, access_token, offset) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&offset=', offset,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&offset=', offset,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token))
   if ('error' %in% names(fetched)) {
     cat('ERROR: ', fetched$error$error_msg, '\n')
     return(NULL)
@@ -215,7 +215,7 @@ makeAccessToken <- function(token_file_name) {
 
 #----------------- USER -----------------#
 getUserInfo <- function(user_id, access_token) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/users.get?user_id=', user_id,'&fields=photo_id,verified,sex,bdate,city,country,home_town,has_photo,photo_100,has_mobile,contacts,site,education,universities,schools,status,last_seen,followers_count,common_count,occupation,relatives,relation,personal,connections,wall_comments,activities,interests,music,movies,tv,books,games,about,quotes,timezone,screen_name,maiden_name,is_friend,friend_status,career,military&v=5.68&access_token=', access_token))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/users.get?user_id=', user_id,'&fields=photo_id,verified,sex,bdate,city,country,home_town,has_photo,photo_100,has_mobile,contacts,site,education,universities,schools,status,last_seen,followers_count,common_count,occupation,relatives,relation,personal,connections,wall_comments,activities,interests,music,movies,tv,books,games,about,quotes,timezone,screen_name,maiden_name,is_friend,friend_status,career,military&v=5.130&access_token=', access_token))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   }
@@ -279,7 +279,7 @@ getUserInfo <- function(user_id, access_token) {
 
 getMultiUserInfo <- function(user_ids, access_token) {
   user_ids <- paste(user_ids, collapse = ',')
-  fetched <- RJSONIO::fromJSON(paste0('https://api.vk.com/method/users.get?user_ids=', user_ids,'&fields=photo_id,verified,sex,bdate,city,country,home_town,has_photo,photo_100,has_mobile,contacts,site,education,universities,schools,status,last_seen,followers_count,common_count,occupation,relatives,relation,personal,connections,wall_comments,activities,interests,music,movies,tv,books,games,about,quotes,timezone,screen_name,maiden_name,is_friend,friend_status,career,military&v=5.68&access_token=', access_token))
+  fetched <- RJSONIO::fromJSON(paste0('https://api.vk.com/method/users.get?user_ids=', user_ids,'&fields=photo_id,verified,sex,bdate,city,country,home_town,has_photo,photo_100,has_mobile,contacts,site,education,universities,schools,status,last_seen,followers_count,common_count,occupation,relatives,relation,personal,connections,wall_comments,activities,interests,music,movies,tv,books,games,about,quotes,timezone,screen_name,maiden_name,is_friend,friend_status,career,military&v=5.130&access_token=', access_token))
   fetched <- fetched$response
   outp <- lapply(1:length(fetched), function(k) data.frame('id' = ifelse(is.null(fetched[[k]][['id']]), NA, as.character(fetched[[k]][['id']])),
                                                            'first_name' = ifelse(is.null(fetched[[k]][['first_name']]), NA, fetched[[k]][['first_name']]),
@@ -309,7 +309,7 @@ getMultiUserInfo <- function(user_ids, access_token) {
 
 
 getUserFollowersNum <- function(user_id, access_token) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/users.getFollowers?user_id=', user_id,'&fields=sex,bdate,city,country,photo_100,lists,domain,has_mobile,contacts,connections,site,education,universities,schools,can_see_all_posts,status,last_seen,common_count,relation,relatives&v=5.68&access_token=', access_token))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/users.getFollowers?user_id=', user_id,'&fields=sex,bdate,city,country,photo_100,lists,domain,has_mobile,contacts,connections,site,education,universities,schools,can_see_all_posts,status,last_seen,common_count,relation,relatives&v=5.130&access_token=', access_token))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   }
@@ -318,7 +318,7 @@ getUserFollowersNum <- function(user_id, access_token) {
 
 
 getUserFollowersInfo <- function(user_id, access_token, offset = 0) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/users.getFollowers?user_id=', user_id,'&count=1000&fields=sex,bdate,city,country,photo_100,lists,domain,has_mobile,contacts,connections,site,education,universities,schools,can_see_all_posts,status,last_seen,common_count,relation,relatives&v=5.68&access_token=', access_token, '&offset=', offset))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/users.getFollowers?user_id=', user_id,'&count=1000&fields=sex,bdate,city,country,photo_100,lists,domain,has_mobile,contacts,connections,site,education,universities,schools,can_see_all_posts,status,last_seen,common_count,relation,relatives&v=5.130&access_token=', access_token, '&offset=', offset))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   } 
@@ -377,7 +377,7 @@ getUserFollowersInfo <- function(user_id, access_token, offset = 0) {
 
 
 getUserFriendsNum <- function(user_id, access_token) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/friends.get?user_id=', user_id,'&fields=nickname&v=5.68&access_token=', access_token))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/friends.get?user_id=', user_id,'&fields=nickname&v=5.130&access_token=', access_token))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   } 
@@ -386,7 +386,7 @@ getUserFriendsNum <- function(user_id, access_token) {
 
 
 getUserFriendsInfo <- function(user_id, access_token) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/friends.get?user_id=', user_id,'&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&access_token=',access_token))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/friends.get?user_id=', user_id,'&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&access_token=',access_token))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   }
@@ -445,7 +445,7 @@ getUserFriendsInfo <- function(user_id, access_token) {
 
 
 getUserGroupsNum <- function(user_id, access_token) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/groups.get?user_id=', user_id,'&extended=0&v=5.68&access_token=', access_token))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/groups.get?user_id=', user_id,'&extended=0&v=5.130&access_token=', access_token))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   } 
@@ -454,7 +454,7 @@ getUserGroupsNum <- function(user_id, access_token) {
 
 
 getUserGroupsInfo <- function(user_id, access_token) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/groups.get?user_id=', user_id,'&count=1000&extended=1&v=5.68&access_token=', access_token))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/groups.get?user_id=', user_id,'&count=1000&extended=1&v=5.130&access_token=', access_token))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   } 
@@ -463,7 +463,7 @@ getUserGroupsInfo <- function(user_id, access_token) {
 
 
 getUserWall <- function(user_id, access_token, num_posts = 'all', verbose = FALSE) {
-  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token))
+  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token))
   if ('error' %in% names(wall)) {
     stop(wall$error$error_msg, '\n')
   } 
@@ -500,7 +500,7 @@ getUserWall <- function(user_id, access_token, num_posts = 'all', verbose = FALS
 
 
 getUserPostComments <- function(user_id, post_id, access_token, offset = 0) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getComments?owner_id=', user_id,'&post_id=', post_id,'&count=100&need_likes=1&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token,'&offset=', offset))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getComments?owner_id=', user_id,'&post_id=', post_id,'&count=100&need_likes=1&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token,'&offset=', offset))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   } 
@@ -528,7 +528,7 @@ getUserPostComments <- function(user_id, post_id, access_token, offset = 0) {
 
 getUserWallComments <- function(user_id, num_posts = 'all', access_token, verbose = FALSE) {
   #--- Get posts number and request the number of posts to retrieve
-  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&count=100&v=5.68&extended=0&access_token=', access_token))
+  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&count=100&v=5.130&extended=0&access_token=', access_token))
   if ('error' %in% names(wall)) {
     stop(wall$error$error_msg)
   }
@@ -554,7 +554,7 @@ getUserWallComments <- function(user_id, num_posts = 'all', access_token, verbos
     all_requested_posts <- wall$response$items$id
     offsets <- 100 * 1:floor(num_posts/100)
     for (w in 1:length(offsets)) {
-      wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&offset=', offsets[w],'&v=5.68&extended=0&access_token=', access_token))
+      wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&offset=', offsets[w],'&v=5.130&extended=0&access_token=', access_token))
       all_requested_posts <- c(all_requested_posts, wall$response$items$id)
     }
     all_requested_posts <- unique(all_requested_posts)
@@ -567,7 +567,7 @@ getUserWallComments <- function(user_id, num_posts = 'all', access_token, verbos
     cat('Iterations started.\n')
   }
   for (j in 1:length(all_requested_posts)) {
-    fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getComments?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=100&need_likes=1&v=5.68&extended=0&access_token=', access_token))
+    fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getComments?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=100&need_likes=1&v=5.130&extended=0&access_token=', access_token))
     if ('error' %in% names(fetched)) {
       cat('ERROR in ', j, ':', fetched$error$error_msg, '\n')
       Sys.sleep(1)
@@ -582,7 +582,7 @@ getUserWallComments <- function(user_id, num_posts = 'all', access_token, verbos
         items2_list <- list()
         ell = 1
         for (ell in 1:length(newoffsets)) {
-          fetched2 <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getComments?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=100&offset=', newoffsets[ell],'&need_likes=1&v=5.68&extended=0&access_token=', access_token))
+          fetched2 <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getComments?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=100&offset=', newoffsets[ell],'&need_likes=1&v=5.130&extended=0&access_token=', access_token))
           if (length(fetched2$response$items) == 0) {
             Sys.sleep(1)
           } else {
@@ -616,7 +616,7 @@ getUserWallComments <- function(user_id, num_posts = 'all', access_token, verbos
 
 
 getUserPostLikes <- function(user_id, post_id, access_token, offset = 0) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/likes.getList?type=post&owner_id=', user_id,'&item_id=', post_id,'&count=1000&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token,'&offset=', offset))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/likes.getList?type=post&owner_id=', user_id,'&item_id=', post_id,'&count=1000&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token,'&offset=', offset))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   } 
@@ -627,7 +627,7 @@ getUserPostLikes <- function(user_id, post_id, access_token, offset = 0) {
 
 getUserWallLikes <- function(user_id, access_token, num_posts = 'all', verbose = FALSE) {
   #--- Get posts number and request the number of posts to retrieve
-  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token))
+  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token))
   if ('error' %in% names(wall)) {
     stop(wall$error$error_msg)
   }
@@ -654,7 +654,7 @@ getUserWallLikes <- function(user_id, access_token, num_posts = 'all', verbose =
     all_requested_posts <- wall$response$items$id
     offsets <- 100 * 1:floor(num_posts/100)
     for (w in 1:length(offsets)) {
-      wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&count=100&offset=', offsets[w],'&v=5.68&extended=0&access_token=', access_token))
+      wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&count=100&offset=', offsets[w],'&v=5.130&extended=0&access_token=', access_token))
       all_requested_posts <- c(all_requested_posts, wall$response$items$id)
     }
     all_requested_posts <- unique(all_requested_posts)
@@ -684,7 +684,7 @@ getUserWallLikes <- function(user_id, access_token, num_posts = 'all', verbose =
 
 
 getUserMostLikingUsers <- function(user_id, access_token, num_posts = 'all', num_users = 'all', verbose = FALSE) {
-  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token))
+  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token))
   if (num_posts == 'all') {
     num_posts <- wall$response$count
   } else {
@@ -713,7 +713,7 @@ getUserMostLikingUsers <- function(user_id, access_token, num_posts = 'all', num
 
 
 getUserPostReposts <- function(user_id, post_id, access_token) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', user_id,'&post_id=', post_id,'&count=1000&v=5.68&extended=0&access_token=', access_token))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', user_id,'&post_id=', post_id,'&count=1000&v=5.130&extended=0&access_token=', access_token))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   }
@@ -733,7 +733,7 @@ getUserPostReposts <- function(user_id, post_id, access_token) {
                          'num_reposts' = sapply(1:nrow(items), function(k) ifelse(is.null(items[k, 'reposts']['count']), NA, as.numeric(items[k, 'reposts']['count']))), 
                          'num_views' = sapply(1:nrow(items), function(k) ifelse(is.null(items[k, 'views']['count']), NA, as.numeric(items[k, 'views']['count']))), stringsAsFactors = F)
     
-    fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', user_id,'&post_id=', post_id,'&offset=', nrow(items)+1,'&count=1000&v=5.68&extended=0&access_token=', access_token))
+    fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', user_id,'&post_id=', post_id,'&offset=', nrow(items)+1,'&count=1000&v=5.130&extended=0&access_token=', access_token))
     items2 <- fetched$response$items
     if (!is.null(nrow(items2))) {
       output2 <- data.frame('repost_id' = sapply(1:nrow(items2), function(k) ifelse(is.null(items2[k, 'id']), NA, items2[k, 'id'])),
@@ -747,7 +747,7 @@ getUserPostReposts <- function(user_id, post_id, access_token) {
                             'num_likes' = sapply(1:nrow(items2), function(k) ifelse(is.null(items2[k, 'likes']['count']), NA, as.numeric(items2[k, 'likes']['count']))), 
                             'num_reposts' = sapply(1:nrow(items2), function(k) ifelse(is.null(items2[k, 'reposts']['count']), NA, as.numeric(items2[k, 'reposts']['count']))), 
                             'num_views' = sapply(1:nrow(items2), function(k) ifelse(is.null(items2[k, 'views']['count']), NA, as.numeric(items2[k, 'views']['count']))), stringsAsFactors = F)
-      fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', user_id,'&post_id=', post_id,'&offset=', nrow(items) + nrow(items2) +1,'&count=1000&v=5.68&extended=0&access_token=', access_token))
+      fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', user_id,'&post_id=', post_id,'&offset=', nrow(items) + nrow(items2) +1,'&count=1000&v=5.130&extended=0&access_token=', access_token))
       items3 <- fetched$response$items
       
       if (!is.null(nrow(items3))) {
@@ -789,7 +789,7 @@ getUserPostReposts <- function(user_id, post_id, access_token) {
 
 getUserWallReposts <- function(user_id, access_token, num_posts = 'all', verbose = FALSE) {
   #--- Get posts number and request the number of posts to retrieve
-  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&count=1000&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token))
+  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&count=1000&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token))
   if ('error' %in% names(wall)) {
     stop(wall$error$error_msg)
   }
@@ -816,7 +816,7 @@ getUserWallReposts <- function(user_id, access_token, num_posts = 'all', verbose
     all_requested_posts <- wall$response$items$id
     offsets <- 100 * 1:floor(num_posts/100)
     for (w in 1:length(offsets)) {
-      wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&offset=', offsets[w],'&v=5.68&extended=0&access_token=', access_token))
+      wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&offset=', offsets[w],'&v=5.130&extended=0&access_token=', access_token))
       all_requested_posts <- c(all_requested_posts, wall$response$items$id)
     }
     all_requested_posts <- unique(all_requested_posts)
@@ -833,7 +833,7 @@ getUserWallReposts <- function(user_id, access_token, num_posts = 'all', verbose
   }
   for (j in 1:length(all_requested_posts)) {
     offset_count = 0
-    fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=1000&need_likes=1&v=5.68&extended=0&access_token=', access_token))
+    fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=1000&need_likes=1&v=5.130&extended=0&access_token=', access_token))
     if ('error' %in% names(fetched)) {
       cat('ERROR in ', j, ':', fetched$error$error_msg, '\n')
       Sys.sleep(1)
@@ -861,7 +861,7 @@ getUserWallReposts <- function(user_id, access_token, num_posts = 'all', verbose
         while (nrow(fetched$response$items) == 1000) {
           # need to use offset
           offset_count = offset_count + 1
-          fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=1000&offset=', offset_count * 1000,'&need_likes=1&v=5.68&extended=0&access_token=', access_token))
+          fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=1000&offset=', offset_count * 1000,'&need_likes=1&v=5.130&extended=0&access_token=', access_token))
           if (length(fetched$response$items) == 0) {
             Sys.sleep(1)
           } else {
@@ -894,7 +894,7 @@ getUserWallReposts <- function(user_id, access_token, num_posts = 'all', verbose
 }
 getGroupWallReposts <- function(group_id, access_token, num_posts = 'all', verbose = FALSE) {
   #--- Get posts number and request the number of posts to retrieve
-  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=1000&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token))
+  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=1000&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token))
   if ('error' %in% names(wall)) {
     stop(wall$error$error_msg)
   }
@@ -921,7 +921,7 @@ getGroupWallReposts <- function(group_id, access_token, num_posts = 'all', verbo
     all_requested_posts <- wall$response$items$id
     offsets <- 100 * 1:floor(num_posts/100)
     for (w in 1:length(offsets)) {
-      wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&offset=', offsets[w],'&v=5.68&extended=0&access_token=', access_token))
+      wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&offset=', offsets[w],'&v=5.130&extended=0&access_token=', access_token))
       all_requested_posts <- c(all_requested_posts, wall$response$items$id)
     }
     all_requested_posts <- unique(all_requested_posts)
@@ -938,7 +938,7 @@ getGroupWallReposts <- function(group_id, access_token, num_posts = 'all', verbo
   }
   for (j in 1:length(all_requested_posts)) {
     offset_count = 0
-    fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=1000&need_likes=1&v=5.68&extended=0&access_token=', access_token))
+    fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=1000&need_likes=1&v=5.130&extended=0&access_token=', access_token))
     if ('error' %in% names(fetched)) {
       cat('ERROR in ', j, ':', fetched$error$error_msg, '\n')
       Sys.sleep(1)
@@ -966,7 +966,7 @@ getGroupWallReposts <- function(group_id, access_token, num_posts = 'all', verbo
         while (nrow(fetched$response$items) == 1000) {
           # need to use offset
           offset_count = offset_count + 1
-          fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=1000&offset=', offset_count * 1000,'&need_likes=1&v=5.68&extended=0&access_token=', access_token))
+          fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=1000&offset=', offset_count * 1000,'&need_likes=1&v=5.130&extended=0&access_token=', access_token))
           if (length(fetched$response$items) == 0) {
             Sys.sleep(1)
           } else {
@@ -1000,7 +1000,7 @@ getGroupWallReposts <- function(group_id, access_token, num_posts = 'all', verbo
 
 
 getUserMostRepostingUsers <- function(user_id, access_token, num_posts = 'all', num_users = 'all', verbose = FALSE) {
-  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token))
+  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token))
   if (num_posts == 'all') {
     num_posts <- wall$response$count
   } else {
@@ -1028,7 +1028,7 @@ getUserMostRepostingUsers <- function(user_id, access_token, num_posts = 'all', 
 
 
 getUserMostCommentingUsers <- function(user_id, access_token, num_posts = 'all', num_users = 'all', verbose = FALSE) {
-  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token))
+  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', user_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token))
   if (num_posts == 'all') {
     num_posts <- wall$response$count
   } else {
@@ -1056,7 +1056,7 @@ getUserMostCommentingUsers <- function(user_id, access_token, num_posts = 'all',
 
 
 getUserWallSearchCount <- function(user_id, query, access_token) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.search?owner_id=', user_id,'&query=', query,'&count=100&v=5.68&access_token=', access_token))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.search?owner_id=', user_id,'&query=', query,'&count=100&v=5.130&access_token=', access_token))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   } 
@@ -1065,7 +1065,7 @@ getUserWallSearchCount <- function(user_id, query, access_token) {
 
 
 searchUserWall <- function(user_id, query, access_token, verbose = FALSE) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.search?owner_id=', user_id,'&query=', query,'&count=100&offset=0&v=5.68&access_token=', access_token))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.search?owner_id=', user_id,'&query=', query,'&count=100&offset=0&v=5.130&access_token=', access_token))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   }
@@ -1116,7 +1116,7 @@ searchUserWall <- function(user_id, query, access_token, verbose = FALSE) {
     m = 0
     for (off in offsets) {
       m <- m + 1
-      fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.search?owner_id=', user_id,'&query=', query,'&count=100&offset=', off,'&v=5.68&access_token=', access_token))
+      fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.search?owner_id=', user_id,'&query=', query,'&count=100&offset=', off,'&v=5.130&access_token=', access_token))
       Sys.sleep(1)
       output2 <- data.frame('object_id' = sapply(1:nrow(fetched$response$items), function(k) fetched$response$items$id[k]), stringsAsFactors = F)
       
@@ -1165,7 +1165,7 @@ searchUserWall <- function(user_id, query, access_token, verbose = FALSE) {
 
 
 checkUsersAreMembers <- function(user_ids, group_id, access_token) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/groups.isMember?group_id=', group_id,'&user_ids=', paste(user_ids, collapse = ','),'&extended=1&v=5.68&access_token=', access_token))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/groups.isMember?group_id=', group_id,'&user_ids=', paste(user_ids, collapse = ','),'&extended=1&v=5.130&access_token=', access_token))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   } 
@@ -1188,7 +1188,7 @@ getGroupMembers <- function(group_id, access_token, num_users = 'all', verbose =
   }
   offsets <- 1000 * 0:floor(max(howmany)/1000)
   for (j in 1:length(offsets)) {
-    fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/groups.getMembers?group_id=', group_id,'&offset=', offsets[j],'&count=1000&&fields=sex,bdate,city,country,photo_100,lists,domain,has_mobile,contacts,connections,site,education,universities,schools,career,can_see_all_posts,status,last_seen,common_count,relation,relatives&v=5.68&access_token=', access_token))
+    fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/groups.getMembers?group_id=', group_id,'&offset=', offsets[j],'&count=1000&&fields=sex,bdate,city,country,photo_100,lists,domain,has_mobile,contacts,connections,site,education,universities,schools,career,can_see_all_posts,status,last_seen,common_count,relation,relatives&v=5.130&access_token=', access_token))
     if ('error' %in% names(fetched)) {
       stop(fetched$error$error_msg)
     } else {
@@ -1243,7 +1243,7 @@ getGroupMembers <- function(group_id, access_token, num_users = 'all', verbose =
 
 
 getGroupInfo <- function(group_id, access_token, links = TRUE) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/groups.getById?group_ids=', group_id,'&fields=city,country,place,description,wiki_page,members_count,start_date,finish_date,can_see_all_posts,activity,status,links,fixed_post,verified,site,ban_info&v=5.68&access_token=', access_token))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/groups.getById?group_ids=', group_id,'&fields=city,country,place,description,wiki_page,members_count,start_date,finish_date,can_see_all_posts,activity,status,links,fixed_post,verified,site,ban_info&v=5.130&access_token=', access_token))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   } 
@@ -1288,7 +1288,7 @@ getGroupWall <- function(group_id, access_token, num_posts = 'all', verbose = FA
   if (num_posts!='all' & (suppressWarnings(is.na(as.numeric(group_id))) | group_id <= 0)) {
     stop('Error in group id: group_id can only be numeric and positive')
   }
-  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token))
+  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token))
   if ('error' %in% names(wall)) {
     stop(wall$error$error_msg, '\n')
   } 
@@ -1328,7 +1328,7 @@ getGroupWall <- function(group_id, access_token, num_posts = 'all', verbose = FA
 
 
 getGroupPostComments <- function(group_id, post_id, access_token) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getComments?owner_id=', -group_id,'&post_id=', post_id,'&count=100&need_likes=1&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getComments?owner_id=', -group_id,'&post_id=', post_id,'&count=100&need_likes=1&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   }
@@ -1356,7 +1356,7 @@ getGroupPostComments <- function(group_id, post_id, access_token) {
 
 getGroupWallComments <- function(group_id, num_posts = 'all', access_token, verbose = FALSE) {
   #--- Get posts number and request the number of posts to retrieve
-  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&v=5.68&extended=0&access_token=', access_token))
+  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&v=5.130&extended=0&access_token=', access_token))
   if ('error' %in% names(wall)) {
     stop(wall$error$error_msg)
   }
@@ -1382,7 +1382,7 @@ getGroupWallComments <- function(group_id, num_posts = 'all', access_token, verb
     all_requested_posts <- wall$response$items$id
     offsets <- 100 * 1:floor(num_posts/100)
     for (w in 1:length(offsets)) {
-      wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&offset=', offsets[w],'&v=5.68&extended=0&access_token=', access_token))
+      wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&offset=', offsets[w],'&v=5.130&extended=0&access_token=', access_token))
       all_requested_posts <- c(all_requested_posts, wall$response$items$id)
     }
     all_requested_posts <- unique(all_requested_posts)
@@ -1395,7 +1395,7 @@ getGroupWallComments <- function(group_id, num_posts = 'all', access_token, verb
     cat('Iterations started.\n')
   }
   for (j in 1:length(all_requested_posts)) {
-    fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getComments?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=100&need_likes=1&v=5.68&extended=0&access_token=', access_token))
+    fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getComments?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=100&need_likes=1&v=5.130&extended=0&access_token=', access_token))
     if ('error' %in% names(fetched)) {
       cat('ERROR in ', j, ':', fetched$error$error_msg, '\n')
       Sys.sleep(1)
@@ -1410,7 +1410,7 @@ getGroupWallComments <- function(group_id, num_posts = 'all', access_token, verb
         items2_list <- list()
         ell = 1
         for (ell in 1:length(newoffsets)) {
-          fetched2 <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getComments?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=100&offset=', newoffsets[ell],'&need_likes=1&v=5.68&extended=0&access_token=', access_token))
+          fetched2 <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getComments?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=100&offset=', newoffsets[ell],'&need_likes=1&v=5.130&extended=0&access_token=', access_token))
           if (length(fetched2$response$items) == 0) {
             Sys.sleep(1)
           } else {
@@ -1443,7 +1443,7 @@ getGroupWallComments <- function(group_id, num_posts = 'all', access_token, verb
 
 
 getGroupPostReposts <- function(group_id, post_id, access_token) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', post_id,'&count=1000&v=5.68&extended=0&access_token=', access_token))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', post_id,'&count=1000&v=5.130&extended=0&access_token=', access_token))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   }
@@ -1463,7 +1463,7 @@ getGroupPostReposts <- function(group_id, post_id, access_token) {
                          'num_views' = sapply(1:nrow(items), function(k) ifelse(is.null(items[k, 'views']['count']), NA, as.numeric(items[k, 'views']['count']))), stringsAsFactors = F)
     
     items <- fetched$response$items
-    fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', post_id,'&offset=', nrow(items),'&count=1000&v=5.68&extended=0&access_token=', access_token))
+    fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', post_id,'&offset=', nrow(items),'&count=1000&v=5.130&extended=0&access_token=', access_token))
     items2 <- fetched$response$items
     if (!is.null(nrow(items2))) {
       output2 <- data.frame('repost_id' = sapply(1:nrow(items2), function(k) ifelse(is.null(items2[k, 'id']), NA, items2[k, 'id'])),
@@ -1477,7 +1477,7 @@ getGroupPostReposts <- function(group_id, post_id, access_token) {
                             'num_likes' = sapply(1:nrow(items2), function(k) ifelse(is.null(items2[k, 'likes']['count']), NA, as.numeric(items2[k, 'likes']['count']))), 
                             'num_reposts' = sapply(1:nrow(items2), function(k) ifelse(is.null(items2[k, 'reposts']['count']), NA, as.numeric(items2[k, 'reposts']['count']))), 
                             'num_views' = sapply(1:nrow(items2), function(k) ifelse(is.null(items2[k, 'views']['count']), NA, as.numeric(items2[k, 'views']['count']))), stringsAsFactors = F)
-      fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', post_id,'&offset=', nrow(items) + nrow(items2),'&count=1000&v=5.68&extended=0&access_token=', access_token))
+      fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', post_id,'&offset=', nrow(items) + nrow(items2),'&count=1000&v=5.130&extended=0&access_token=', access_token))
       items3 <- fetched$response$items
       
       if (!is.null(nrow(items3))) {
@@ -1518,7 +1518,7 @@ getGroupPostReposts <- function(group_id, post_id, access_token) {
 
 getGroupWallReposts <- function(group_id, access_token, num_posts = 'all', verbose = FALSE) {
   #--- Get posts number and request the number of posts to retrieve
-  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=1000&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token))
+  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=1000&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token))
   if ('error' %in% names(wall)) {
     stop(wall$error$error_msg)
   }
@@ -1545,7 +1545,7 @@ getGroupWallReposts <- function(group_id, access_token, num_posts = 'all', verbo
     all_requested_posts <- wall$response$items$id
     offsets <- 100 * 1:floor(num_posts/100)
     for (w in 1:length(offsets)) {
-      wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&offset=', offsets[w],'&v=5.68&extended=0&access_token=', access_token))
+      wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&offset=', offsets[w],'&v=5.130&extended=0&access_token=', access_token))
       all_requested_posts <- c(all_requested_posts, wall$response$items$id)
     }
     all_requested_posts <- unique(all_requested_posts)
@@ -1562,7 +1562,7 @@ getGroupWallReposts <- function(group_id, access_token, num_posts = 'all', verbo
   }
   for (j in 1:length(all_requested_posts)) {
     offset_count = 0
-    fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=1000&need_likes=1&v=5.68&extended=0&access_token=', access_token))
+    fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=1000&need_likes=1&v=5.130&extended=0&access_token=', access_token))
     if ('error' %in% names(fetched)) {
       cat('ERROR in ', j, ':', fetched$error$error_msg, '\n')
       Sys.sleep(1)
@@ -1590,7 +1590,7 @@ getGroupWallReposts <- function(group_id, access_token, num_posts = 'all', verbo
         while (nrow(fetched$response$items) == 1000) {
           # need to use offset
           offset_count = offset_count + 1
-          fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=1000&offset=', offset_count * 1000,'&need_likes=1&v=5.68&extended=0&access_token=', access_token))
+          fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.getReposts?owner_id=', -group_id,'&post_id=', all_requested_posts[j],'&count=1000&offset=', offset_count * 1000,'&need_likes=1&v=5.130&extended=0&access_token=', access_token))
           if (length(fetched$response$items) == 0) {
             Sys.sleep(1)
           } else {
@@ -1623,7 +1623,7 @@ getGroupWallReposts <- function(group_id, access_token, num_posts = 'all', verbo
 }
 
 getGroupPostLikes <- function(group_id, post_id, access_token) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/likes.getList?type=post&owner_id=', -group_id,'&item_id=', post_id,'&count=1000&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/likes.getList?type=post&owner_id=', -group_id,'&item_id=', post_id,'&count=1000&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   }
@@ -1644,7 +1644,7 @@ getGroupPostLikes <- function(group_id, post_id, access_token) {
 
 getGroupWallLikes <- function(group_id, access_token, num_posts = 'all', verbose = FALSE) {
   #--- Get posts number and request the number of posts to retrieve
-  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token))
+  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token))
   if ('error' %in% names(wall)) {
     stop(wall$error$error_msg)
   }
@@ -1699,7 +1699,7 @@ getGroupWallLikes <- function(group_id, access_token, num_posts = 'all', verbose
 
 
 getGroupMostLikingUsers <- function(group_id, access_token, num_posts = 'all', num_users = 'all', verbose = FALSE) {
-  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token))
+  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token))
   if (num_posts == 'all') {
     num_posts <- wall$response$count
   } else {
@@ -1728,7 +1728,7 @@ getGroupMostLikingUsers <- function(group_id, access_token, num_posts = 'all', n
 
 
 getGroupMostRepostingUsers <- function(group_id, access_token, num_posts = 'all', num_users = 'all', verbose = FALSE) {
-  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token))
+  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token))
   if (num_posts == 'all') {
     num_posts <- wall$response$count
   } else {
@@ -1756,7 +1756,7 @@ getGroupMostRepostingUsers <- function(group_id, access_token, num_posts = 'all'
 
 
 getGroupMostCommentingUsers <- function(group_id, access_token, num_posts = 'all', num_users = 'all', verbose = FALSE) {
-  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.68&extended=0&access_token=', access_token))
+  wall <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.get?owner_id=', -group_id,'&count=100&fields=sex,bdate,city,country,timezone,photo_100,has_mobile,contacts,education,online,relation,last_seen,status,can_write_private_message,can_see_all_posts,can_post,universities&v=5.130&extended=0&access_token=', access_token))
   if (num_posts == 'all') {
     num_posts <- wall$response$count
   } else {
@@ -1784,7 +1784,7 @@ getGroupMostCommentingUsers <- function(group_id, access_token, num_posts = 'all
 
 
 getGroupWallSearchCount <- function(group_id, query, access_token) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.search?owner_id=', -group_id,'&query=', query,'&count=100&v=5.68&access_token=', access_token))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.search?owner_id=', -group_id,'&query=', query,'&count=100&v=5.130&access_token=', access_token))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   } 
@@ -1793,7 +1793,7 @@ getGroupWallSearchCount <- function(group_id, query, access_token) {
 
 
 searchGroupWall <- function(group_id, query, access_token, verbose = FALSE) {
-  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.search?owner_id=', -group_id,'&query=', query,'&count=100&offset=0&v=5.68&access_token=', access_token))
+  fetched <- jsonlite::fromJSON(paste0('https://api.vk.com/method/wall.search?owner_id=', -group_id,'&query=', query,'&count=100&offset=0&v=5.130&access_token=', access_token))
   if ('error' %in% names(fetched)) {
     stop(fetched$error$error_msg)
   }
