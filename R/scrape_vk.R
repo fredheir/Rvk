@@ -123,6 +123,7 @@ extract_wall <- function(user_id, access_token, offset) {
                          'comments_count' = items$comments$count,
                          'likes_count' = items$likes$count,
                          'reposts_count' = items$reposts$count,
+                         'views_count' = items$views$count,
                          'reposted' = sapply(1:nrow(items), function(k) ifelse(is.null(items$copy_history[k][[1]]), 0, 1)),
                          'reposted_from_id' = sapply(1:nrow(items), function(k) ifelse(is.null(items$copy_history[k][[1]]), NA, items$copy_history[k][[1]]$from_id)),
                          'reposted_original_date' = sapply(1:nrow(items), function(k) ifelse(is.null(items$copy_history[k][[1]]), NA, as.Date(as.POSIXct(items$copy_history[k][[1]]$date, origin="1970-01-01")))),
